@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Home {% endblock %}
+
+{% block body %}    
+
+    <div class="list-group">       
+        {%if status == '1' %}
+            <div class="alert alert-warning" role="alert">
+                Esse Livro não é seu!
+            </div>
+        {% endif%} 
+
+        {%if status == '2' %}
+            <div class="alert alert-warning" role="alert">
+                Falha ao Cadastrar!
+            </div>
+        {% endif%} 
+        
+        {% for livro in livros %}
+            <a href="{% url 'ver_livro' livro.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{livro.nome_livro}}</h5>                                                     
+                </div>    
+                <h6 class="mb-1">Autor: {{livro.autor}}</h6>                             
+            </a>            
+        {% endfor %}        
+        
+    </div>
+
+{% endblock %}
