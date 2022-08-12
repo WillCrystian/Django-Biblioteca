@@ -10,7 +10,7 @@ class Cadastro_Categoria(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['usuario'].widget = forms.HiddenInput()
+        self.fields['usuario'].widget = forms.HiddenInput() # ocultar informação
 
 class Cadastro_Livro(forms.ModelForm):
     class Meta:
@@ -19,4 +19,4 @@ class Cadastro_Livro(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['usuario'].widget = forms.HiddenInput()
+        self.fields['usuario'].widget = forms.HiddenInput() # ocultar informação

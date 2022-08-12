@@ -10,7 +10,6 @@ class Categoria(models.Model):
 
     def __str__ (self):
         return self.categoria
-    
 
 class Livro(models.Model):
     nome_livro = models.CharField(max_length=50)
@@ -18,7 +17,7 @@ class Livro(models.Model):
     co_autor = models.CharField(max_length=50, blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
     data_cadastro = models.DateField()
-    usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)        
+    usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.nome_livro

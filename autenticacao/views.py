@@ -38,26 +38,25 @@ def confirma_cadastro(request):
 
         try:
             senha = sha256(senha.encode()).hexdigest()
-            usuario = Usuario(nome=nome, 
-                            email=email, 
+            usuario = Usuario(usuario=nome,
+                            email=email,
                             senha=senha)
             usuario.save()
-            
+
             return redirect('/auth/cadastro/?status=0')  
         except:
             return redirect('/auth/cadastro/?status=6') 
 
 
-def login(request): 
+def login(request):
     if request.session.get('usuario'):
-        return redirect('/home') 
-          
+        return redirect('/home')
+
     status = request.GET.get('status')
     return render(request, 'login.html', {'status':status})
 
 def confirma_login(request):
-    
-    
+
     if request.method =="GET":
         return redirect('/auth/login')
 
@@ -72,8 +71,8 @@ def confirma_login(request):
             request.session['usuario'] = usuario[0].id
             return redirect('/home/')
         else:
-            return redirect('/auth/login/?status=1')        
-    
+            return redirect('/auth/login/?status=1')
+
 def sair(request):
     request.session.flush()
     return redirect('/auth/login/')

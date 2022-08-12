@@ -70,9 +70,13 @@
                     
                     <form action="{% url 'cadastrar_categoria' %}" method="POST"> {% csrf_token %}
                         
-                        <table>
-                            {{form_categoria}}                          
-                        </table>
+                        <label>Categoria</label>
+                        <input type="text" name="categoria">
+                        <br>
+                        
+                        <label>Descricao</label>
+                        <input type="text" name="descricao">
+                        <br>
                         
                         <input type="submit" class="btn btn-outline-sucess" value="Cadastrar">
                     </form>
