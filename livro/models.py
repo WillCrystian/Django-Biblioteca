@@ -1,5 +1,6 @@
 from django.db import models
 from autenticacao.models import Usuario
+from datetime import date
 
 # Create your models here.
 
@@ -16,7 +17,7 @@ class Livro(models.Model):
     autor = models.CharField(max_length=50)
     co_autor = models.CharField(max_length=50, blank=True, null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
-    data_cadastro = models.DateField()
+    data_cadastro = models.DateField(default=date.today)
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
 
     def __str__(self):

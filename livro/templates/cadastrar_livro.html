@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block titulo%}
+Cadastrar Livros
+{% endblock %}
+
+{% block head%}
+<form action="{% url 'cadastrar_livro' %}" method="POST">{% csrf_token %}
+    <br>
+    <table>
+        {{form.as_table}}  
+    </table>  
+   
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    <br>
+</form>
+
+{% endblock %}
+
+
+{% block body%}
+
+{% endblock %}

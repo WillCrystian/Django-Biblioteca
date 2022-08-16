@@ -31,16 +31,15 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">Cadastrar</a>
+
                         <div class="dropdown-menu" aria-labelledby="dropdown01">
-                            <a class="dropdown-item" href="#">Categoria</a>
-                            <a class="dropdown-item" href="#">Livro</a>                        
+                            <a class="dropdown-item" href="{% url 'cadast_categoria'%}">Categoria</a>
+                            <a class="dropdown-item" href="{% url 'cadast_livro' %}">Livro</a>                        
                         </div>
+
                     </li>
                 </ul>            
-                    <!-- Button trigger modal -->
-                <button type="button" class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal" data-target="#cadastrar_categoria">
-                    Cadastro
-                </button>
+                   
         
                 <form action="{% url 'sair' %}" class="form-inline my-2 my-lg-0">
                     <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Sair</button>
@@ -49,75 +48,7 @@
         </nav>
         <br>
         <br>
-
-                <!-- Modal -->
-        <div class="modal fade" id="cadastrar_categoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cadastro</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-
-                <button onclick="mostrar_form(1)" type="button" class="btn btn-outline-primary">Cadastrar Categoria</button>
-                <br>
-                <button onclick="mostrar_form(2)" type="button" class="btn btn-outline-primary">Cadastrar Livro</button>
-                <br>
-                <!-- cadastrar_categoria -->
-                <div style="display: block" id="categoria">
-                    
-                    <form action="{% url 'cadastrar_categoria' %}" method="POST"> {% csrf_token %}
-                        
-                        <label>Categoria</label>
-                        <input type="text" name="categoria">
-                        <br>
-                        
-                        <label>Descricao</label>
-                        <input type="text" name="descricao">
-                        <br>
-                        
-                        <input type="submit" class="btn btn-outline-sucess" value="Cadastrar">
-                    </form>
-
-                </div>
-
-                <!-- cadastrar_livro -->
-                <div style="display: none" id="livro">
-                    
-                    <form action="{% url 'cadastrar_livro' %}" method="POST"> {% csrf_token %}
-                        <table>
-                            {{form_livro.as_table}}
-                        </table>
-                    </form>
-
-                </div>
-             
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <script>
-            function mostrar_form(v1){
-                categoria = document.getElementById('categoria')
-                livro = document.getElementById('livro')
-
-                if (v1 == 1){
-                    categoria.style.display = 'block';
-                    livro.style.display = 'none';
-
-                }else if (v1 == 2){
-                    categoria.style.display = 'none';
-                    livro.style.display = 'block';
-                }
-            }
-
-        </script>
-
+        
     {% endif %}
 
     {% block head %}
