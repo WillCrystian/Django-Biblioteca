@@ -4,10 +4,14 @@
 
 {% block body %}
 
+
+
     <div class="list-group"> 
+
         
       <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
+            
               <h5 class="mb-1">{{livro.nome_livro}}</h5>  
 
                 <!-- Button trigger modal -->
@@ -20,10 +24,18 @@
           <p class="mb-1">Co-Autor: {{livro.co_autor}}</p>
           <p class="mb-1">Categoria: {{livro.categoria}}</p>
           <p class="mb-1">Data Cadastro: {{livro.data_cadastro}}</p>                             
-      </a>            
-        
+      </a>
     </div>
     <br>
+    {% if messages %}
+      <br>
+      {% for message in messages %}
+        <div class="alert {{message.tags}}">
+          {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    
     <table class="table table-striped">        
       <h3>Histórico Emprestimo</h3>
       <br>

@@ -4,7 +4,16 @@
 
 {% block body %}    
 
-    <div class="list-group">       
+    <div class="list-group">   
+        {% if messages %}
+            <br>
+            {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+            {% endfor %}
+        {% endif %} 
+           
         {%if status == '1' %}
             <div class="alert alert-warning" role="alert">
                 Esse Livro não é seu!
