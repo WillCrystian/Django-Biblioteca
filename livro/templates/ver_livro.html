@@ -23,7 +23,12 @@
           <p class="mb-1">Autor: {{livro.autor}}</p>
           <p class="mb-1">Co-Autor: {{livro.co_autor}}</p>
           <p class="mb-1">Categoria: {{livro.categoria}}</p>
-          <p class="mb-1">Data Cadastro: {{livro.data_cadastro}}</p>                             
+          <p class="mb-1">Data Cadastro: {{livro.data_cadastro}}</p>
+          {% if livro.emprestado %}
+            <p class="mb-1">Emprestado: SIM</p>
+          {% else %} 
+            <p class="mb-1">Emprestado: Não</p>
+          {% endif%}                             
       </a>
     </div>
     <br>
@@ -35,7 +40,7 @@
         </div>
       {% endfor %}
     {% endif %}
-    
+
     <table class="table table-striped">        
       <h3>Histórico Emprestimo</h3>
       <br>

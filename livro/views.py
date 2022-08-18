@@ -4,21 +4,21 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from autenticacao.models import Usuario
 from .models import Livro, Emprestimo, Categoria
-from .form import Cadastro_Categoria, Cadastro_Livro
+from .form import Cadastro_Categoria, Cadastro_Livro, Emprestimo_Form
 from django.contrib.messages import constants
 from django.contrib import messages
 
 # Create your views here.
-def home(request):    
+def home(request):
     if request.session.get('usuario'):
         livros = Livro.objects.filter(usuario=request.session.get('usuario'))
-        status = request.GET.get('status')
-
-        return render(request, 'home.html', {'livros':livros,
-                                             'status':status,
-                                             'usuario_logado':request.session.get('usuario'),})
-    else:
+        emprestimo_form = Emprestimo_Form()
+        emprestimo_form.fields['nome_livro'].queryset = livros
         
+        return render(request, 'home.html', {'livros':livros,
+                                             'usuario_logado':request.session.get('usuario'),
+                                             'emprestimo_form':emprestimo_form})
+    else:
         return redirect('/auth/login/')
 
 def ver_livro(request, id):
@@ -26,9 +26,8 @@ def ver_livro(request, id):
         livro = Livro.objects.get(id = id)
         status = request.GET.get('status')
         if request.session.get('usuario') == livro.usuario.id:
-            emprestado = Emprestimo.objects.filter(nome_livro=livro)     
+            emprestado = Emprestimo.objects.filter(nome_livro=livro)
             
-
             return render(request, 'ver_livro.html', {'livro':livro,
                                                       'status':status,
                                                       'emprestado':emprestado,
@@ -83,6 +82,9 @@ def cadast_livro(request):
         
         ### Mostrar categorias do usuario logado ###
         form.fields['categoria'].queryset = categorias
+        
+        ### Enviar o id do usuario_logado para o forms ###
+        form.fields['emprestado'].initial = False
         
         return render(request, 'cadastrar_livro.html', {'usuario_logado':request.session.get('usuario'),
                                                         'categorias':categorias,
