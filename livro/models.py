@@ -5,7 +5,7 @@ from datetime import date
 # Create your models here.
 
 class Categoria(models.Model):
-    categoria = models.CharField(max_length=50) 
+    categoria = models.CharField(max_length=50)
     descricao = models.TextField(blank=True, null=True)
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
 
@@ -22,7 +22,7 @@ class Livro(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return self.nome_livro
+        return f'{self.nome_livro}'
 
 class Emprestimo(models.Model):
     nome_livro = models.ForeignKey(Livro, on_delete=models.DO_NOTHING)
@@ -32,4 +32,4 @@ class Emprestimo(models.Model):
     data_devolucao = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.nome_livro}'
+        return f'{self.nome_livro} | {self.usuario}'

@@ -1,17 +1,24 @@
-{% extends 'base.html' %}
+{% extends 'base_plataforma.html' %}
+{% load static %}
 
 {% block titulo%}
 Cadastrar Categorias
 {% endblock %}
 
-{% block head%}
+{% block main %}
+    <h1 class="jumbotron-heading">Cadastro de Categorias</h1>
+{% endblock  %}
+
+{% block conteudo %}
 <br>
-<form action="{% url 'cadastrar_categoria' %}" method="POST">{% csrf_token %}
-    <table>
-        {{ form.as_table}}
-    </table>
-    <button type="submit" class="btn btn-primary"> Cadastrar </button>
-</form>
+<div class="container">
+    <form action="{% url 'cadastrar_categoria' %}" method="POST">{% csrf_token %}
+        <table>
+            {{ form.as_table}}
+        </table>
+        <button type="submit" class="btn btn-primary"> Cadastrar </button>
+    </form>
+</div>
 {% endblock %}
 
 

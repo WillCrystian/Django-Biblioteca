@@ -1,94 +1,95 @@
-{% extends 'base.html' %}
+{% extends 'base_plataforma.html' %}
+{% load static %}
+{% load filtros %}
 
-{% block titulo %} Ver Livro {% endblock %}
+{% block titulo %}Ver Livro{% endblock %}
 
-{% block body %}
+{% block main %}
+<h1 class="jumbotron-heading">Informações do livro</h1>
+{% endblock  %}
 
+{% block conteudo %}
+    <div class="container"> 
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                
+                <h2 class="mb-1">{{livro.nome_livro}}</h2>  
 
+                    <!-- Button trigger modal -->
+                <button type="button" class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#excluir">
+                    Excluir
+                </button>
 
-    <div class="list-group"> 
-
-        
-      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            
-              <h5 class="mb-1">{{livro.nome_livro}}</h5>  
-
-                <!-- Button trigger modal -->
-              <button type="button" class="btn btn-outline-danger my-2 my-sm-0" data-toggle="modal" data-target="#excluir">
-                Excluir
-              </button>
-
-          </div>
-          <p class="mb-1">Autor: {{livro.autor}}</p>
-          <p class="mb-1">Co-Autor: {{livro.co_autor}}</p>
-          <p class="mb-1">Categoria: {{livro.categoria}}</p>
-          <p class="mb-1">Data Cadastro: {{livro.data_cadastro}}</p>
-          {% if livro.emprestado %}
-            <p class="mb-1">Emprestado: SIM</p>
-          {% else %} 
-            <p class="mb-1">Emprestado: Não</p>
-          {% endif%}                             
-      </a>
+            </div>
+            <h4 class="mb-1">Autor: {{livro.autor}}</h4>
+            <h5 class="mb-1">Co-Autor: {{livro.co_autor}}</h5>
+            <h4 class="mb-1">Categoria: {{livro.categoria}}</h4>
+            <h4 class="mb-1">Data Cadastro: {{livro.data_cadastro}}</h4>
+            {% if livro.emprestado %}
+                <h4 class="mb-1">Emprestado: SIM</h4>
+            {% else %} 
+                <h4 class="mb-1">Emprestado: Não</h4>
+            {% endif%}                             
+        </a>
     </div>
     <br>
     {% if messages %}
-      <br>
-      {% for message in messages %}
-        <div class="alert {{message.tags}}">
-          {{message}}
-        </div>
-      {% endfor %}
+        <br>
+        {% for message in messages %}
+            <div class="alert {{message.tags}}">
+                {{message}}
+            </div>
+        {% endfor %}
     {% endif %}
 
-    <table class="table table-striped">        
-      <h3>Histórico Emprestimo</h3>
-      <br>
-      <thead>
-        <tr>
-          <th scope="col">Nome</th>
-          <th scope="col">Data Emprestimo</th>
-          <th scope="col">Data Devolução</th>
-          <th scope="col">Dias Emprestado</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="container">
+        <table class="table table-striped">        
+            <h3>Histórico Emprestimo</h3>
+            <br>
+            <thead>
+                <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data Emprestimo</th>
+                <th scope="col">Data Devolução</th>
+                <th scope="col">Dias Emprestado</th>
+                </tr>
+            </thead>
+            <tbody>
 
-        {%for e in emprestado %}
-          <tr> 
-              {% if e.usuario != None %}
-                  <th scope="row">{{e.usuario}}</th>
-              {% else %}
-                  <th scope="row">{{e.usuario_anonimo}}</th>
-              {% endif %}
-              <td>{{e.data_emprestimo}}</td>
-              <td>{{e.data_devolucao}}</td>
-              <td>{{e.data_devolucao}}</td>            
-          </tr>  
-        {%  endfor%} 
-                
-      </tbody>
-    </table>
+                {%for e in emprestado %}
+                <tr> 
+                    {% if e.usuario != None %}
+                        <th scope="row">{{e.usuario}}</th>
+                    {% else %}
+                        <th scope="row">{{e.usuario_anonimo}}</th>
+                    {% endif %}
+                    <td>{{e.data_emprestimo}}</td>
+                    <td>{{e.data_devolucao}}</td>
+                    <td>{{e.data_devolucao|tempo_emprestimo:e.data_emprestimo}}</td>            
+                </tr>  
+                {%  endfor%} 
+                        
+            </tbody>
+        </table>
+    </div>
 
-       <!-- Modal -->
-      <div class="modal fade" id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <!-- =========Modal========= -->
+    <div class="modal fade" id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Realmente Deseja Excluir?</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-              </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Realmente Deseja Excluir?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-                       
-
-              <div class="modal-footer">
-                <a href="{% url 'excluir_livro' livro.id %}" class="btn btn-danger">Sim</a>  
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
-              </div>
-          </div>
+                <div class="modal-footer">
+                    <a href="{% url 'excluir_livro' livro.id %}" class="btn btn-danger">Sim</a>  
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
 
 {% endblock %}

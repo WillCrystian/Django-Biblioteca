@@ -1,40 +1,49 @@
-{% extends 'base.html' %}
+{% extends 'base_plataforma.html' %}
+{% load static %}
 
-{% block titulo %} Home {% endblock %}
 
-{% block body %}    
+{% block titulo %}Home{% endblock  %}
 
-    <div class="list-group">   
-        {% if messages %}
-            <br>
-            {% for message in messages %}
-            <div class="alert {{message.tags}}">
-                {{message}}
-            </div>
-            {% endfor %}
-        {% endif %} 
-           
-        {%if status == '1' %}
-            <div class="alert alert-warning" role="alert">
-                Esse Livro não é seu!
-            </div>
-        {% endif%} 
+{% block main %}
+<h1 class="jumbotron-heading">Lista de livros</h1>
+{% endblock  %}
 
-        {%if status == '2' %}
-            <div class="alert alert-warning" role="alert">
-                Falha ao Cadastrar!
-            </div>
-        {% endif%}
-        
-        {% for livro in livros %}
-            <a href="{% url 'ver_livro' livro.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{livro.nome_livro}}</h5>                                                     
-                </div>    
-                <h6 class="mb-1">Autor: {{livro.autor}}</h6>                             
-            </a>            
-        {% endfor %}        
-        
+
+{% block conteudo %}
+
+{% if messages %}
+    <br>
+    {% for message in messages %}
+    <div class="alert {{message.tags}}">
+        {{message}}
     </div>
+    {% endfor %}
+{% endif %}
 
-{% endblock %}
+<div class="album py-5 bg-light">    
+    <div class="container">        
+        <div class="row">
+
+            {% for livro in livros %} 
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">                                       
+                        <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                        <div class="card-body">
+                            <h3 class="card-text">{{livro.nome_livro}}</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="{% url 'ver_livro' livro.id %}" type="button" class="btn btn-sm btn-outline-secondary">Ver</a>
+                                </div>
+                                <small class="text-muted">9 mins</small>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>        
+    </div>        
+</div>
+
+
+{% endblock  %}
