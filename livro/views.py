@@ -31,7 +31,8 @@ def ver_livro(request, id):
         livro = Livro.objects.get(id = id)
         livros_emprestar = Livro.objects.filter(usuario=request.session.get('usuario')).filter(emprestado=False)
         livros_emprestado = Emprestimo.objects.filter(data_devolucao=None)
-        todos_usuarios = Usuario.objects.all()   
+        todos_usuarios = Usuario.objects.all()
+        
         
         if request.session.get('usuario') == livro.usuario.id:
             emprestado = Emprestimo.objects.filter(nome_livro=livro)
@@ -167,4 +168,16 @@ def devolver_livro(request):
     
         messages.add_message(request, constants.SUCCESS, 'Livro devolvido com sucesso')
         return redirect(f'/ver_livro/{livro.id}')
-      
+    
+def avaliar_livro(request):
+    if request.method == "POST":
+        id_emprestimo = request.POST.get('id_emprestimo')
+        id_livro = request.POST.get('id_livro')
+        avaliacao = request.POST.get('avaliacao')
+        
+        emprestimo = Emprestimo.objects.get(id = id_emprestimo)
+        emprestimo.avaliacao = avaliacao
+        emprestimo.save()
+        
+        return redirect(f'/ver_livro/{id_livro}/')
+        

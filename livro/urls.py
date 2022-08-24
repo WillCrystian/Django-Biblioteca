@@ -11,5 +11,6 @@ urlpatterns = [
     path('excluir_livro/<int:id>/', views.excluir_livro, name='excluir_livro'),
     path('emprestar_livro/', views.emprestar_livro, name='emprestar_livro'),
     path('devolver_livro/', views.devolver_livro, name='devolver_livro'),
+    path('avaliar_livro/', views.avaliar_livro, name='avaliar_livro'),
     
 ]

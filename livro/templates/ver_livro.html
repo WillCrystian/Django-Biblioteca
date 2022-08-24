@@ -52,6 +52,7 @@
                 <th scope="col">Data Emprestimo</th>
                 <th scope="col">Data Devolução</th>
                 <th scope="col">Dias Emprestado</th>
+                <th scope="col">Avaliação</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,9 +64,25 @@
                     {% else %}
                         <th scope="row">{{e.usuario_anonimo}}</th>
                     {% endif %}
+
                     <td>{{e.data_emprestimo}}</td>
                     <td>{{e.data_devolucao}}</td>
-                    <td>{{e.data_devolucao|tempo_emprestimo:e.data_emprestimo}}</td>            
+                    <td>{{e.data_devolucao|tempo_emprestimo:e.data_emprestimo}}</td>
+
+                    {% if e.data_devolucao == None %}
+                        <td></td>
+                    {% else %}
+
+                        {% if e.avaliacao == '' %}
+                            <td>
+                                <button onclick="receber_id({{e.id}})" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#avaliar">Avaliar</button>
+                            </td>
+                        {% else %}
+                            <td>{{e.avaliacao}}</td>
+                        {% endif %}
+                        
+                         
+                    {% endif %}          
                 </tr>  
                 {%  endfor%} 
                         
@@ -73,7 +90,7 @@
         </table>
     </div>
 
-       <!-- =========Modal========= -->
+       <!-- =========Modal Excluir========= -->
     <div class="modal fade" id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -92,4 +109,43 @@
         </div>
     </div>
 
+    <!-- =========Modal Avaliação========= -->
+    <div class="modal fade" id="avaliar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Avaliação</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{% url 'avaliar_livro' %}" method="POST"> {% csrf_token %}
+                    <div class="bory">
+                        
+                        <input name="id_emprestimo" id="id_emprestimo" class="btn btn-primary" type="hidden">
+                        <input name="id_livro" id="" class="btn btn-primary" type="hidden" value="{{livro.id}}">
+                        <select class="form-control" name="avaliacao" id="">
+                            <option value="B">Bom</option>
+                            <option value="M">Médio</option>
+                            <option value="R">Ruim</option>
+                        </select>
+                        
+                    </div>
+
+                    <div class="modal-footer">
+                    <button type="submit" class="btn btn-outline-primary">Avaliar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function receber_id(id_emprestimo){
+            
+            elemento_id = document.getElementById('id_emprestimo')
+            elemento_id.value = id_emprestimo
+            
+        }
+    </script>
 {% endblock %}
