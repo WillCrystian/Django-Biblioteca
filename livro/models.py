@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.db import models
 from autenticacao.models import Usuario
 from datetime import date
@@ -13,6 +14,7 @@ class Categoria(models.Model):
         return self.categoria
 
 class Livro(models.Model):
+    img = models.ImageField(upload_to='capa_livro', null=True, blank=True )
     nome_livro = models.CharField(max_length=50)
     autor = models.CharField(max_length=50)
     co_autor = models.CharField(max_length=50, blank=True, null=True)
@@ -38,7 +40,8 @@ class Emprestimo(models.Model):
     avaliacao = models.CharField(max_length=1, choices=choices, default='')
     
     class Meta:
-        ordering = ["data_emprestimo"]
+        # ordenar invertido é só colocar o - na frente da variavel
+        ordering = ["-data_emprestimo"]
         
     def __str__(self):
         return f'{self.nome_livro} | {self.usuario}'

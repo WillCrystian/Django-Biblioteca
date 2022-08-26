@@ -1,0 +1,44 @@
+{% extends 'base_plataforma.html' %}
+{% load static %}
+
+{% block titulo %}Editar{% endblock titulo %}
+
+{% block main %}
+<h1 class="jumbotron-heading">Editar Livro</h1>
+{% endblock main %}
+
+{% block conteudo %}
+<div class="container">
+    <form action="" method="POST">{% csrf_token %}
+        <div class="form-group">
+            <label>Nome do Livro</label>
+            <input type="input" class="form-control" value="{{livro.nome_livro}}" name="nome_livro">
+          </div>
+        <div class="form-group">
+          <label>Autor</label>
+          <input type="input" class="form-control" value="{{livro.autor}}" name="autor">
+        </div>
+        <div class="form-group">
+            <label>Co-Autor</label>
+            <input type="input" class="form-control" value="{{livro.co_autor}}" name="co_autor">
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+              <label for="">Categoria</label>
+
+              <select class="form-control" name="id_categoria" id="">
+                
+                <option selected value="{{livro.categoria.id}}">{{livro.categoria}}</option>
+                {% for categoria in categorias %}                
+                <option value="{{categoria.id}}">{{categoria.categoria}}</option>
+                {% endfor %}
+
+              </select>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Editar</button>
+      </form>
+</div>
+
+{% endblock conteudo %}

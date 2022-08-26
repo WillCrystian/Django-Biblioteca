@@ -108,7 +108,7 @@ def cadastrar_livro(request):
     if request.method == "POST":
         if request.session.get('usuario'):
             usuario = request.session.get('usuario')
-            form = Cadastro_Livro(request.POST)
+            form = Cadastro_Livro(request.POST, request.FILES)
             
             if Livro.objects.filter(usuario = form.data['usuario']).filter(nome_livro = form.data['nome_livro']):
                 messages.add_message(request, constants.WARNING, 'Esse livro já está cadastrado')
@@ -116,7 +116,7 @@ def cadastrar_livro(request):
             
             if form.is_valid() and int(usuario) == int(form.data['usuario']):
                 form.save()
-                messages.add_message(request, constants.SUCCESS, 'Cadastrado com sucesso!')
+                messages.add_message(request, constants.SUCCESS, 'Livro cadastrado com sucesso!')
                 return redirect('/home/')
             
             messages.add_message(request, constants.ERROR, 'Falha ao cadastrar!')
@@ -179,5 +179,32 @@ def avaliar_livro(request):
         emprestimo.avaliacao = avaliacao
         emprestimo.save()
         
+        messages.add_message(request, constants.SUCCESS, 'Avaliação efetuada com sucesso')
         return redirect(f'/ver_livro/{id_livro}/')
+    
+def editar_livro(request, id):
+    if request.method == "GET":
+        livro = Livro.objects.get(id = id)
+        categorias = Categoria.objects.filter(usuario = request.session.get('usuario'))
+       
+        return render(request, 'editar_livro.html',{'livro':livro,
+                                                    'categorias':categorias})
+    elif request.method == "POST":
+        livro = Livro.objects.get(id = id)
+        
+        nome_livro = request.POST.get('nome_livro')
+        autor = request.POST.get('autor')
+        co_autor = request.POST.get('co_autor')
+        id_categoria = request.POST.get('id_categoria')
+        print(id_categoria)
+        categoria = Categoria.objects.get(id= id_categoria)
+        print(categoria)
+        
+        livro.nome_livro = nome_livro
+        livro.autor = autor
+        livro.co_autor = co_autor
+        livro.categoria = categoria
+        livro.save()
+
+        return redirect(f'/editar_livro/{livro.id}')
         
