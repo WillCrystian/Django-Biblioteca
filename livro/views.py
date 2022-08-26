@@ -57,9 +57,9 @@ def cadast_categoria(request):
         form.fields['usuario'].initial = request.session.get('usuario')
         
         return render(request, 'cadastrar_categoria.html', {'usuario_logado':request.session.get('usuario'),
-                                                            'form':form}) 
+                                                            'form':form})
                                                             
-    messages.add_message(request, constants.ERROR, 'Esse Livro não é seu!')                                                       
+    messages.add_message(request, constants.ERROR, 'Esse Livro não é seu!')                                                  
     return redirect('/home/')
     
 def cadastrar_categoria(request):
@@ -85,7 +85,7 @@ def cadastrar_categoria(request):
 def cadast_livro(request):
     if request.session.get('usuario'):
         usuario = Usuario.objects.get(id = request.session.get('usuario'))
-        categorias = Categoria.objects.filter(usuario = usuario)   
+        categorias = Categoria.objects.filter(usuario = usuario)
         form = Cadastro_Livro()
         
         ### Enviar o id do usuario_logado para o forms ###
@@ -120,7 +120,7 @@ def cadastrar_livro(request):
                 return redirect('/home/')
             
             messages.add_message(request, constants.ERROR, 'Falha ao cadastrar!')
-            return redirect('/home/')    
+            return redirect('/home/')
 
 def excluir_livro(request, id):
     livro = Livro.objects.get(id=id).delete()
